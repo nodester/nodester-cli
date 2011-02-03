@@ -1,7 +1,7 @@
 {
   "name": "nodester-cli",
   "description": "A CLI tool to allow interaction with the http://nodester.com/ platform.",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "homepage": "http://nodester.com/",
   "repository": "git://github.com/nodester/nodester-cli.git",
   "author": "Daniel Bartlett <dan@f-box.org> (http://danb-uk.net/)",
@@ -12,6 +12,6 @@
     "node": "*"
   },
   "dependencies" : {
-    "nodester-api": "0.1.0"
+    "nodester-api": "0.1.2"
   }
 }

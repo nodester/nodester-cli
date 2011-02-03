@@ -1,33 +1,42 @@
 #!/usr/bin/env node
-var nodester = require('nodester-api').nodester;
+var node = require('nodester-api').nodester;
 var path = require('path');
 var fs = require('fs');
 var sys = require('sys');
+var brand = "nodester";
+var apihost = "api.nodester.com";
 
 process.argv.shift(); process.argv.shift();
 
 var showUsage = function () {
   console.log(
-    "nodester <command> <param1> <param2>\n" +
+    brand + " <command> <param1> <param2>\n" +
     "\n" +
     "Commands are:\n" +
-    "nodester coupon <email address>\n" +
-    "nodester user create <username> <password> <email address> <file containing ssh public key> <coupon code>\n" +
-    "nodester user setup <username> <password>\n" +
-//    "nodester user delete <username> <password>\n" +
+    brand + " coupon <email address>\n" +
+    brand + " user create <username> <password> <email address> <file containing ssh public key> <coupon code>\n" +
+    brand + " user setup <username> <password>\n" +
+//    brand + " user delete <username> <password>\n" +
     "The commands below require you to have run 'user setup' before/\n" +
-    "nodester user setpass <new password>\n" +
+    brand + " user setpass <new password>\n" +
     "You should run user setup after running setpass.\n" +
-    "nodester user setkey <file containing ssh public key>\n" +
-    "nodester apps list\n" +
-    "nodester app create <app-name> <initial js file>\n" +
-    "nodester app info <app-name>\n" +
-    "nodester app start <app-name>\n" +
-    "nodester app restart <app-name>\n" +
-    "nodester app stop <app-name>\n" +
-    "nodester appnpm install <app-name> <package name>\n" +
-    "nodester appnpm upgrade <app-name> <package name>\n" +
-    "nodester appnpm uninstall <app-name> <package name>"
+    brand + " user setkey <file containing ssh public key>"
+  );
+  console.log(
+    brand + " apps list\n" +
+    brand + " app create <app-name> <initial js file>\n" +
+    brand + " app init <app-name> <folder>\n" +
+    brand + " app setup <app-name>\n" +
+    "If you use app setup <app-name> inside a folder the commands below can be run without the <app-name> from that folder.\n" +
+    brand + " app info <app-name>\n" +
+    brand + " app start <app-name>\n" +
+    brand + " app restart <app-name>\n" +
+    brand + " app stop <app-name>\n" +
+    brand + " appnpm install <app-name> <package name>\n" +
+    brand + " appnpm upgrade <app-name> <package name>\n" +
+    brand + " appnpm uninstall <app-name> <package name>\n" +
+    brand + " appdomain add <app-name> <domain-name>\n" +
+    brand + " appdomain delete <app-name> <domain-name>\n"
   );
 };
 
@@ -45,7 +54,7 @@ var config = {
   username: "",
   password: ""
 };
-var config_file = path.join(process.env.HOME, ".nodesterrc");
+var config_file = path.join(process.env.HOME, "." + brand + "rc");
 try {
   var cf_stat = fs.statSync(config_file);
   if (cf_stat.isFile()) {
@@ -63,6 +72,31 @@ try {
   // sys.puts(sys.inspect(e));
 }
 
+var appname = "";
+var apprcfile = "." + brand + ".appconfig";
+try {
+  var cf_stat = fs.statSync(apprcfile);
+  if (cf_stat.isFile()) {
+    var config_str = fs.readFileSync(apprcfile);
+    var lines = config_str.toString().split("\n");
+    for(var i in lines) {
+      var line = lines[i];
+      if (line.length > 2) {
+        var prts = line.split("=");
+        switch(prts[0]) {
+          case "appname":
+            appname = prts[1];
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+} catch (e) {
+  // sys.puts(sys.inspect(e));
+}
+
 var pad = function (str, len) {
   if (len + 1 >= str.length) {
     str = str + Array(len + 1 - str.length).join(" ");
@@ -72,7 +106,7 @@ var pad = function (str, len) {
 
 var check_config = function () {
   if (config.username == "" || config.password == "") {
-    console.log("Error: username and password not set in config.\nPlease run nodester user setup <username> <password>\n");
+    console.log("Error: username and password not set in config.\nPlease run " + brand + " user setup <username> <password>\n");
     process.exit(2);
   }
 };
@@ -81,8 +115,8 @@ var action = process.argv.shift();
 switch(action) {
   case "coupon":
     var email = process.argv.shift();
-    var nodes = new nodester();
-    nodes.coupon_request(email, function (data) {
+    var nodeapi = new node("", "", apihost);
+    nodeapi.coupon_request(email, function (data) {
       console.log(data.status);
     });
     break;
@@ -95,13 +129,13 @@ switch(action) {
         var email = process.argv.shift();
         var rsakey = process.argv.shift();
         var coupon = process.argv.shift();
-        var nodes = new nodester();
+        var nodeapi = new node("", "", apihost);
         if (typeof user == 'undefined' || typeof pass == 'undefined' || typeof email == 'undefined' || typeof rsakey == 'undefined' || typeof coupon == 'undefined') {
           console.log("Invalid arguments.");
           showUsage();
           process.exit(1);
         }
-        nodes.user_create(user, pass, email, rsakey, coupon, function (data) {
+        nodeapi.user_create(user, pass, email, rsakey, coupon, function (data) {
           console.log(data.status);
         });
         break;
@@ -122,14 +156,14 @@ switch(action) {
 */
       case "setpass":
         check_config();
-        var nodes = new nodester(config.username, config.password);
+        var nodeapi = new node(config.username, config.password, apihost);
         var newpass = process.argv.shift();
         if (typeof user == 'undefined' || typeof pass == 'undefined') {
           console.log("Invalid arguments.");
           showUsage();
           process.exit(1);
         }
-        nodes.user_setpass(newpass, function (data) {
+        nodeapi.user_setpass(newpass, function (data) {
           console.log(data.status);
         });
         break;
@@ -140,8 +174,8 @@ switch(action) {
           console.log("Error: Invalid SSH key file.");
           process.exit(1);
         }
-        var nodes = new nodester(config.username, config.password);
-        nodes.user_setkey(rsadata, function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.user_setkey(rsadata, function (data) {
           console.log(data.status);
         });
         break;
@@ -157,8 +191,8 @@ switch(action) {
     switch(subaction) {
       case "list":
         check_config();
-        var nodes = new nodester(config.username, config.password);
-        nodes.apps_list(function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.apps_list(function (data) {
           if (data.length > 0) {
             var c = [15, 6, 91, 13, 11];
             console.log(pad("Name", c[0]) + " " + pad("Port", c[1]) + "" + pad("gitrepo", c[2]) + " " + pad("Start", c[3]) + " " + pad("Running", c[4]));
@@ -182,8 +216,8 @@ switch(action) {
         check_config();
         var appname = process.argv.shift();
         var start = process.argv.shift();
-        var nodes = new nodester(config.username, config.password);
-        nodes.app_create(appname, start, function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_create(appname, start, function (data) {
           if (data.status == "success") {
             var c = [15, 6, 91, 13, 11];
             console.log(pad("Name", c[0]) + " " + pad("Port", c[1]) + " " + pad("gitrepo", c[2]) + " " + pad("Start", c[3]) + " " + pad("Running", c[4]));
@@ -193,20 +227,21 @@ switch(action) {
           }
         });
         break;
-/*
       case "init":
         check_config();
         var appname = process.argv.shift();
         var folder = process.argv.shift();
         try {
-          fs.mkdirSync(folder, 0640);
+          fs.mkdirSync(folder, 0750);
         } catch (e) {
           console.log(e.toString());
         }
         var exec = require('child_process').exec;
-        var nodes = new nodester(config.username, config.password);
-        nodes.app_info(appname, function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_info(appname, function (data) {
           var child = exec('git clone ' + data.gitrepo + ' ' + folder, function (error, stdout, stderr) {
+            fs.writeFileSync(folder + '/' + apprcfile, "appname=" + appname + "\n");
+            fs.writeFileSync(folder + '/.gitignore', apprcfile + "\n");
             fs.writeFileSync(folder + '/' + data.start,
               "var http = require('http');\n" +
               "http.createServer(function (req, res) {\n" +
@@ -214,14 +249,14 @@ switch(action) {
               "  res.end('Hello World\\n');\n" +
               "}).listen(" + data.port + ");\n"
             );
-            var child2 = exec('cd ' + folder + '; git add ' + data.start + '; git commit -m "Init via nodester-cli"; git push origin master; ', function (error, stdout, stderr) {
-              nodes.app_stop(appname, function (data) {
+            var child2 = exec('cd ' + folder + '; git add ' + data.start + ' .gitignore; git commit -m "Init via ' + brand + '-cli"; git push origin master; ', function (error, stdout, stderr) {
+              nodeapi.app_stop(appname, function (data) {
                 if (data.status == "success") {
                   console.log("App stopped.");
                 } else {
                   console.log(data.status);
                 }
-                nodes.app_start(appname, function (data) {
+                nodeapi.app_start(appname, function (data) {
                   if (data.status == "success") {
                     console.log("App started.");
                   } else {
@@ -233,12 +268,18 @@ switch(action) {
           });
         });
         break;
-*/
+      case "setup":
+        var appname = process.argv.shift();
+        fs.writeFileSync(apprcfile, "appname=" + appname + "\n");
+        console.log("App settings saved.");
+        break;
       case "info":
         check_config();
-        var appname = process.argv.shift();
-        var nodes = new nodester(config.username, config.password);
-        nodes.app_info(appname, function (data) {
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_info(appname, function (data) {
           if (data.status == "success") {
             var c = [15, 6, 91, 13, 11];
             console.log(pad("Name", c[0]) + " " + pad("Port", c[1]) + "" + pad("gitrepo", c[2]) + " " + pad("Start", c[3]) + " " + pad("Running", c[4]));
@@ -250,9 +291,11 @@ switch(action) {
         break;
       case "start":
         check_config();
-        var appname = process.argv.shift();
-        var nodes = new nodester(config.username, config.password);
-        nodes.app_start(appname, function (data) {
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_start(appname, function (data) {
           if (data.status == "success") {
             console.log("App started.");
           } else {
@@ -262,9 +305,11 @@ switch(action) {
         break;
       case "restart":
         check_config();
-        var appname = process.argv.shift();
-        var nodes = new nodester(config.username, config.password);
-        nodes.app_restart(appname, function (data) {
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_restart(appname, function (data) {
           if (data.status == "success") {
             console.log("App restarted.");
           } else {
@@ -274,9 +319,11 @@ switch(action) {
         break;
       case "stop":
         check_config();
-        var appname = process.argv.shift();
-        var nodes = new nodester(config.username, config.password);
-        nodes.app_stop(appname, function (data) {
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_stop(appname, function (data) {
           if (data.status == "success") {
             console.log("App stopped.");
           } else {
@@ -295,11 +342,13 @@ switch(action) {
     var subaction = process.argv.shift();
     switch(subaction) {
       case "install":
-        var appname = process.argv.shift();
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
         var package = process.argv.shift();
         check_config();
-        var nodes = new nodester(config.username, config.password);
-        nodes.appnpm_install(appname, package, function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.appnpm_install(appname, package, function (data) {
           if (data.status == "success") {
             console.log(data.output);
           } else {
@@ -308,11 +357,13 @@ switch(action) {
         });
         break;
       case "update":
-        var appname = process.argv.shift();
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
         var package = process.argv.shift();
         check_config();
-        var nodes = new nodester(config.username, config.password);
-        nodes.appnpm_update(appname, package, function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.appnpm_update(appname, package, function (data) {
           if (data.status == "success") {
             console.log(data.output);
           } else {
@@ -321,15 +372,57 @@ switch(action) {
         });
         break;
       case "uninstall":
-        var appname = process.argv.shift();
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
         var package = process.argv.shift();
         check_config();
-        var nodes = new nodester(config.username, config.password);
-        nodes.appnpm_uninstall(appname, package, function (data) {
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.appnpm_uninstall(appname, package, function (data) {
           if (data.status == "success") {
             console.log(data.output);
           } else {
             console.log(data.status);
+          }
+        });
+        break;
+      default:
+        console.log("Invalid action");
+        showUsage();
+        process.exit(1);
+        break;
+    }
+    break;
+  case "appdomain":
+    var subaction = process.argv.shift();
+    switch(subaction) {
+      case "add":
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var domain = process.argv.shift();
+        check_config();
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.appdomain_add(appname, domain, function (data) {
+          if (data.status == 'success') {
+            console.log(data.message);
+          } else {
+            console.log(data);
+          }
+        });
+        break;
+      case "delete":
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var domain = process.argv.shift();
+        check_config();
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.appdomain_delete(appname, domain, function (data) {
+          if (data.status == 'success') {
+            console.log(data.message);
+          } else {
+            console.log(data);
           }
         });
         break;
