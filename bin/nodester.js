@@ -17,7 +17,7 @@ var showUsage = function () {
     brand + " user create <username> <password> <email address> <file containing ssh public key> <coupon code>\n" +
     brand + " user setup <username> <password>\n" +
 //    brand + " user delete <username> <password>\n" +
-    "The commands below require you to have run 'user setup' before/\n" +
+    "The commands below require you to have run 'user setup' before.\n" +
     brand + " user setpass <new password>\n" +
     "You should run user setup after running setpass.\n" +
     brand + " user setkey <file containing ssh public key>"
@@ -29,9 +29,12 @@ var showUsage = function () {
     brand + " app setup <app-name>\n" +
     "If you use app setup <app-name> inside a folder the commands below can be run without the <app-name> from that folder.\n" +
     brand + " app info <app-name>\n" +
+    brand + " app logs <app-name>\n" +
     brand + " app start <app-name>\n" +
     brand + " app restart <app-name>\n" +
-    brand + " app stop <app-name>\n" +
+    brand + " app stop <app-name>"
+  );
+  console.log(
     brand + " appnpm install <app-name> <package name>\n" +
     brand + " appnpm upgrade <app-name> <package name>\n" +
     brand + " appnpm uninstall <app-name> <package name>\n" +
@@ -286,6 +289,22 @@ switch(action) {
             console.log(pad(appname, c[0]) + " " + pad(data.port, c[1]) + "  " + pad(data.gitrepo, c[2]) + " " + pad(data.start, c[3]) + " " + pad(data.running, c[4]));
           } else {
             console.log(data.status);
+          }
+        });
+        break;
+      case "logs":
+        check_config();
+        if (appname == "") {
+          appname = process.argv.shift();
+        }
+        var nodeapi = new node(config.username, config.password, apihost);
+        nodeapi.app_logs(appname, function (data) {
+          if (typeof data.success != 'undefined' && data.success == true) {
+            for(var i in data.lines) {
+              console.log(data.lines[i]);
+            };
+          } else {
+            console.log(data);
           }
         });
         break;
