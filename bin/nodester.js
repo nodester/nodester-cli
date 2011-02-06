@@ -119,7 +119,11 @@ switch(action) {
   case "coupon":
     var email = process.argv.shift();
     var nodeapi = new node("", "", apihost);
-    nodeapi.coupon_request(email, function (data) {
+    nodeapi.coupon_request(email, function (err, data) {
+      if (err) {
+        throw new Error(err);
+        process.exit(1);
+      }
       console.log(data.status);
     });
     break;
@@ -138,7 +142,11 @@ switch(action) {
           showUsage();
           process.exit(1);
         }
-        nodeapi.user_create(user, pass, email, rsakey, coupon, function (data) {
+        nodeapi.user_create(user, pass, email, rsakey, coupon, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           console.log(data.status);
         });
         break;
@@ -166,7 +174,11 @@ switch(action) {
           showUsage();
           process.exit(1);
         }
-        nodeapi.user_setpass(newpass, function (data) {
+        nodeapi.user_setpass(newpass, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           console.log(data.status);
         });
         break;
@@ -178,7 +190,11 @@ switch(action) {
           process.exit(1);
         }
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.user_setkey(rsadata, function (data) {
+        nodeapi.user_setkey(rsadata, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           console.log(data.status);
         });
         break;
@@ -195,7 +211,11 @@ switch(action) {
       case "list":
         check_config();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.apps_list(function (data) {
+        nodeapi.apps_list(function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.length > 0) {
             var c = [15, 6, 91, 13, 11];
             console.log(pad("Name", c[0]) + " " + pad("Port", c[1]) + "" + pad("gitrepo", c[2]) + " " + pad("Start", c[3]) + " " + pad("Running", c[4]));
@@ -220,7 +240,11 @@ switch(action) {
         var appname = process.argv.shift();
         var start = process.argv.shift();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_create(appname, start, function (data) {
+        nodeapi.app_create(appname, start, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             var c = [15, 6, 91, 13, 11];
             console.log(pad("Name", c[0]) + " " + pad("Port", c[1]) + " " + pad("gitrepo", c[2]) + " " + pad("Start", c[3]) + " " + pad("Running", c[4]));
@@ -241,7 +265,11 @@ switch(action) {
         }
         var exec = require('child_process').exec;
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_info(appname, function (data) {
+        nodeapi.app_info(appname, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           var child = exec('git clone ' + data.gitrepo + ' ' + folder, function (error, stdout, stderr) {
             fs.writeFileSync(folder + '/' + apprcfile, "appname=" + appname + "\n");
             fs.writeFileSync(folder + '/.gitignore', apprcfile + "\n");
@@ -253,13 +281,21 @@ switch(action) {
               "}).listen(" + data.port + ");\n"
             );
             var child2 = exec('cd ' + folder + '; git add ' + data.start + ' .gitignore; git commit -m "Init via ' + brand + '-cli"; git push origin master; ', function (error, stdout, stderr) {
-              nodeapi.app_stop(appname, function (data) {
+              nodeapi.app_stop(appname, function (err, data) {
+                if (err) {
+                  throw new Error(err);
+                  process.exit(1);
+                }
                 if (data.status == "success") {
                   console.log("App stopped.");
                 } else {
                   console.log(data.status);
                 }
-                nodeapi.app_start(appname, function (data) {
+                nodeapi.app_start(appname, function (err, data) {
+                  if (err) {
+                    throw new Error(err);
+                    process.exit(1);
+                  }
                   if (data.status == "success") {
                     console.log("App started.");
                   } else {
@@ -282,7 +318,11 @@ switch(action) {
           appname = process.argv.shift();
         }
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_info(appname, function (data) {
+        nodeapi.app_info(appname, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             var c = [15, 6, 91, 13, 11];
             console.log(pad("Name", c[0]) + " " + pad("Port", c[1]) + "" + pad("gitrepo", c[2]) + " " + pad("Start", c[3]) + " " + pad("Running", c[4]));
@@ -298,7 +338,11 @@ switch(action) {
           appname = process.argv.shift();
         }
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_logs(appname, function (data) {
+        nodeapi.app_logs(appname, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (typeof data.success != 'undefined' && data.success == true) {
             for(var i in data.lines) {
               console.log(data.lines[i]);
@@ -314,7 +358,11 @@ switch(action) {
           appname = process.argv.shift();
         }
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_start(appname, function (data) {
+        nodeapi.app_start(appname, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             console.log("App started.");
           } else {
@@ -328,7 +376,11 @@ switch(action) {
           appname = process.argv.shift();
         }
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_restart(appname, function (data) {
+        nodeapi.app_restart(appname, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             console.log("App restarted.");
           } else {
@@ -342,7 +394,11 @@ switch(action) {
           appname = process.argv.shift();
         }
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.app_stop(appname, function (data) {
+        nodeapi.app_stop(appname, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             console.log("App stopped.");
           } else {
@@ -367,7 +423,11 @@ switch(action) {
         var package = process.argv.shift();
         check_config();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.appnpm_install(appname, package, function (data) {
+        nodeapi.appnpm_install(appname, package, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             console.log(data.output);
           } else {
@@ -382,7 +442,11 @@ switch(action) {
         var package = process.argv.shift();
         check_config();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.appnpm_update(appname, package, function (data) {
+        nodeapi.appnpm_update(appname, package, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             console.log(data.output);
           } else {
@@ -397,7 +461,11 @@ switch(action) {
         var package = process.argv.shift();
         check_config();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.appnpm_uninstall(appname, package, function (data) {
+        nodeapi.appnpm_uninstall(appname, package, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == "success") {
             console.log(data.output);
           } else {
@@ -422,7 +490,11 @@ switch(action) {
         var domain = process.argv.shift();
         check_config();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.appdomain_add(appname, domain, function (data) {
+        nodeapi.appdomain_add(appname, domain, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == 'success') {
             console.log(data.message);
           } else {
@@ -437,7 +509,11 @@ switch(action) {
         var domain = process.argv.shift();
         check_config();
         var nodeapi = new node(config.username, config.password, apihost);
-        nodeapi.appdomain_delete(appname, domain, function (data) {
+        nodeapi.appdomain_delete(appname, domain, function (err, data) {
+          if (err) {
+            throw new Error(err);
+            process.exit(1);
+          }
           if (data.status == 'success') {
             console.log(data.message);
           } else {
