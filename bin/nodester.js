@@ -17,11 +17,26 @@ if (env.NODESTER_BRAND) {
     brand = env.NODESTER_BRAND;
 }
 
-brand = brand;
+process.nodester = {
+    apihost: apihost,
+    brand: brand,
+    appname: '',
+    config: {
+        username: '',
+        password: ''
+    }
+};
+
+require('../lib/config').parse();
+
+console.log(process.nodester);
+
+process.exit();
 
 process.argv = process.argv.slice(2);
 
 var showUsage = function () {
+    /* {{{
   console.log(
     brand.magenta + " <command> <param1> <param2>\n" +
     "\n" +
@@ -54,6 +69,7 @@ var showUsage = function () {
     brand.magenta + " appdomain add "+"<app-name>".yellow+" <domain-name>\n" +
     brand.magenta + " appdomain delete "+"<app-name>".yellow+" <domain-name>\n"
   );
+  }}}*/
 };
 
 if (process.argv.length < 2) {
@@ -66,29 +82,6 @@ if (process.argv[0] === "-h" || process.argv[0] === "--help" || process.argv[0] 
   process.exit(0);
 };
 
-var config = {
-  username: "",
-  password: ""
-};
-var config_file = path.join(process.env.HOME, "." + brand + "rc");
-try {
-  var cf_stat = fs.statSync(config_file);
-  if (cf_stat.isFile()) {
-    var config_str = fs.readFileSync(config_file);
-    var lines = config_str.toString().split("\n");
-    for(var i in lines) {
-      var line = lines[i];
-      if (line.length > 2) {
-        var prts = line.split("=");
-        config[prts[0]] = prts[1];
-      }
-    }
-  }
-} catch (e) {
-  // sys.puts(sys.inspect(e));
-}
-
-var appname = "";
 var apprcfile = "." + brand + ".appconfig";
 try {
   var cf_stat = fs.statSync(apprcfile);
