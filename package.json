@@ -12,6 +12,7 @@
     "node": "*"
   },
   "dependencies" : {
-    "nodester-api": "0.1.4"
+    "nodester-api": "0.1.4",
+    "colors": "0.3.0"
   }
 }

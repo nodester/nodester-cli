@@ -1,45 +1,58 @@
 #!/usr/bin/env node
-var node = require('nodester-api').nodester;
-var path = require('path');
-var fs = require('fs');
-var sys = require('sys');
-var brand = "nodester";
-var apihost = "api.nodester.com";
 
-process.argv.shift(); process.argv.shift();
+var node = require('nodester-api').nodester,
+    path = require('path'),
+    fs = require('fs'),
+    sys = require('sys'),
+    colors = require('colors'),
+    brand = "nodester",
+    apihost = "api.nodester.com",
+    env = process.env;
+
+
+if (env.NODESTER_APIHOST) {
+    apihost = env.NODESTER_APIHOST;
+}
+if (env.NODESTER_BRAND) {
+    brand = env.NODESTER_BRAND;
+}
+
+brand = brand;
+
+process.argv = process.argv.slice(2);
 
 var showUsage = function () {
   console.log(
-    brand + " <command> <param1> <param2>\n" +
+    brand.magenta + " <command> <param1> <param2>\n" +
     "\n" +
     "Commands are:\n" +
-    brand + " coupon <email address>\n" +
-    brand + " user create <username> <password> <email address> <file containing ssh public key> <coupon code>\n" +
-    brand + " user setup <username> <password>\n" +
+    brand.magenta + " coupon <email address>\n" +
+    brand.magenta + " user create <username> <password> <email address> <file containing ssh public key> <coupon code>\n" +
+    brand.magenta + " user setup <username> <password>\n" +
 //    brand + " user delete <username> <password>\n" +
-    "The commands below require you to have run 'user setup' before.\n" +
-    brand + " user setpass <new password>\n" +
-    "You should run user setup after running setpass.\n" +
-    brand + " user setkey <file containing ssh public key>"
+    "\nThe commands below require you to have run 'user setup' before.\n".bold +
+    brand.magenta + " user setpass <new password>\n" +
+    "You should run user setup after running setpass.\n".red.bold + "\n" +
+    brand.magenta + " user setkey <file containing ssh public key>"
   );
   console.log(
-    brand + " apps list\n" +
-    brand + " app create <app-name> <initial js file>\n" +
-    brand + " app init <app-name> <folder>\n" +
-    brand + " app setup <app-name>\n" +
-    "If you use app setup <app-name> inside a folder the commands below can be run without the <app-name> from that folder.\n" +
-    brand + " app info <app-name>\n" +
-    brand + " app logs <app-name>\n" +
-    brand + " app start <app-name>\n" +
-    brand + " app restart <app-name>\n" +
-    brand + " app stop <app-name>"
+    brand.magenta + " apps list\n" +
+    brand.magenta + " app create "+"<app-name>".yellow+" <initial js file>\n" +
+    brand.magenta + " app init "+"<app-name>".yellow+" <folder>\n" +
+    brand.magenta + " app setup "+"<app-name>".yellow+"\n" +
+    "\nIf you use app setup "+"<app-name>".yellow+" inside a folder the commands below can be run without the "+"<app-name>".yellow+" from that folder.\n".bold +
+    brand.magenta + " app info "+"<app-name>".yellow+"\n" +
+    brand.magenta + " app logs "+"<app-name>".yellow+"\n" +
+    brand.magenta + " app start "+"<app-name>".yellow+"\n" +
+    brand.magenta + " app restart "+"<app-name>".yellow+"\n" +
+    brand.magenta + " app stop "+"<app-name>".yellow+""
   );
   console.log(
-    brand + " appnpm install <app-name> <package name>\n" +
-    brand + " appnpm upgrade <app-name> <package name>\n" +
-    brand + " appnpm uninstall <app-name> <package name>\n" +
-    brand + " appdomain add <app-name> <domain-name>\n" +
-    brand + " appdomain delete <app-name> <domain-name>\n"
+    brand.magenta + " appnpm install "+"<app-name>".yellow+" <package name>\n" +
+    brand.magenta + " appnpm upgrade "+"<app-name>".yellow+" <package name>\n" +
+    brand.magenta + " appnpm uninstall "+"<app-name>".yellow+" <package name>\n" +
+    brand.magenta + " appdomain add "+"<app-name>".yellow+" <domain-name>\n" +
+    brand.magenta + " appdomain delete "+"<app-name>".yellow+" <domain-name>\n"
   );
 };
 
@@ -109,7 +122,7 @@ var pad = function (str, len) {
 
 var check_config = function () {
   if (config.username == "" || config.password == "") {
-    console.log("Error: username and password not set in config.\nPlease run " + brand + " user setup <username> <password>\n");
+    console.log("Error: username and password not set in config.\nPlease run " + brand + " user setup <username> <password>\n".bold.red);
     process.exit(2);
   }
 };
