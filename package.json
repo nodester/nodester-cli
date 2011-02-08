@@ -13,6 +13,7 @@
   },
   "dependencies" : {
     "nodester-api": "0.1.4",
-    "colors": "0.3.0"
+    "colors": "0.3.0",
+    "iniparser": "1.0.1"
   }
 }
