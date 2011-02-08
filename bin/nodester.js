@@ -121,7 +121,7 @@ switch(action) {
     var nodeapi = new node("", "", apihost);
     nodeapi.coupon_request(email, function (err, data) {
       if (err) {
-        throw new Error(err);
+        console.log(err.message);
         process.exit(1);
       }
       console.log(data.status);
@@ -144,7 +144,7 @@ switch(action) {
         }
         nodeapi.user_create(user, pass, email, rsakey, coupon, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           console.log(data.status);
@@ -176,7 +176,7 @@ switch(action) {
         }
         nodeapi.user_setpass(newpass, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           console.log(data.status);
@@ -192,7 +192,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.user_setkey(rsadata, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           console.log(data.status);
@@ -213,7 +213,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.apps_list(function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.length > 0) {
@@ -242,7 +242,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_create(appname, start, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -267,7 +267,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_info(appname, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           var child = exec('git clone ' + data.gitrepo + ' ' + folder, function (error, stdout, stderr) {
@@ -283,7 +283,7 @@ switch(action) {
             var child2 = exec('cd ' + folder + '; git add ' + data.start + ' .gitignore; git commit -m "Init via ' + brand + '-cli"; git push origin master; ', function (error, stdout, stderr) {
               nodeapi.app_stop(appname, function (err, data) {
                 if (err) {
-                  throw new Error(err);
+                  console.log(err.message);
                   process.exit(1);
                 }
                 if (data.status == "success") {
@@ -293,7 +293,7 @@ switch(action) {
                 }
                 nodeapi.app_start(appname, function (err, data) {
                   if (err) {
-                    throw new Error(err);
+                    console.log(err.message);
                     process.exit(1);
                   }
                   if (data.status == "success") {
@@ -320,7 +320,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_info(appname, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -340,7 +340,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_logs(appname, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (typeof data.success != 'undefined' && data.success == true) {
@@ -360,7 +360,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_start(appname, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -378,7 +378,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_restart(appname, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -396,7 +396,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.app_stop(appname, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -425,7 +425,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.appnpm_install(appname, package, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -444,7 +444,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.appnpm_update(appname, package, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -463,7 +463,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.appnpm_uninstall(appname, package, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == "success") {
@@ -492,7 +492,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.appdomain_add(appname, domain, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == 'success') {
@@ -511,7 +511,7 @@ switch(action) {
         var nodeapi = new node(config.username, config.password, apihost);
         nodeapi.appdomain_delete(appname, domain, function (err, data) {
           if (err) {
-            throw new Error(err);
+            console.log(err.message);
             process.exit(1);
           }
           if (data.status == 'success') {
