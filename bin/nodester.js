@@ -60,6 +60,7 @@ var showUsage = function () {
 
 var command = process.argv[0],
     cmds = {
+        status: require('../lib/status'),
         coupon: require('../lib/coupon'),
         apps: require('../lib/apps'),
         app: require('../lib/app'),
