@@ -8,6 +8,7 @@ var node = require('nodester-api').nodester,
     log = require('../lib/log'),
     brand = "bejesus",
     apihost = "api.bejes.us",
+    apisecure = true,
     env = process.env;
 
 
@@ -19,6 +20,7 @@ if (env.NODESTER_BRAND) {
 }
 
 process.nodester = {
+    apisecure: apisecure,
     apihost: apihost,
     brand: brand,
     appname: '',
