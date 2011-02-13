@@ -6,8 +6,8 @@ var node = require('nodester-api').nodester,
     sys = require('sys'),
     colors = require('colors'),
     log = require('../lib/log'),
-    brand = "nodester",
-    apihost = "api.nodester.com",
+    brand = "bejesus",
+    apihost = "api.bejes.us",
     env = process.env;
 
 

@@ -1,12 +1,12 @@
 {
-  "name": "nodester-cli",
-  "description": "A CLI tool to allow interaction with the http://nodester.com/ platform.",
-  "version": "0.1.7",
-  "homepage": "http://nodester.com/",
+  "name": "bejesus-cli",
+  "description": "A CLI tool to allow interaction with the http://bejes.us/ platform.",
+  "version": "0.2.0",
+  "homepage": "http://bejes.us/",
   "repository": "git://github.com/nodester/nodester-cli.git",
   "author": "Daniel Bartlett <dan@f-box.org> (http://danb-uk.net/)",
   "bin": {
-    "nodester": "bin/nodester.js"
+    "bejesus": "bin/nodester.js"
   },
   "engines": {
     "node": "*"
