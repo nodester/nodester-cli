@@ -8,6 +8,7 @@
   "bin": {
     "nodester": "bin/nodester.js"
   },
+  "main": "./lib/commands.js",
   "engines": {
     "node": "*"
   },
