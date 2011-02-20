@@ -15,6 +15,9 @@ var node = require('nodester-api').nodester,
 if (env.NODESTER_APIHOST) {
     apihost = env.NODESTER_APIHOST;
 }
+if (env.NODESTER_APISECURE) {
+    apisecure = true;
+}
 if (env.NODESTER_BRAND) {
     brand = env.NODESTER_BRAND;
 }

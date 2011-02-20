@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export NODESTER_BRAND=davster;
+export NODESTER_APIHOST=auth.davglass.com;
+nodester "$@"
+export NODESTER_BRAND=;
+export NODESTER_APIHOST=;
+
