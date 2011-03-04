@@ -4,7 +4,7 @@ This app is a little wrapper around the REST API for the [Nodester](http://nodes
 
 ## Installation
 
-    npm install nodester
+    npm install nodester-cli
 
 ## Usage
 
