@@ -1,7 +1,7 @@
 {
   "name": "nodester-cli",
   "description": "A CLI tool to allow interaction with the http://nodester.com/ platform.",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "homepage": "http://nodester.com/",
   "repository": "git://github.com/nodester/nodester-cli.git",
   "author": "Daniel Bartlett <dan@f-box.org> (http://danb-uk.net/)",
@@ -10,6 +10,7 @@
     "Chris Matthieu <chris@matthieu.us>",
     "Abraham Williams <4braham@gmail.com>"
   ],
+  "preferGlobal" : "true",
   "bin": {
     "nodester": "bin/nodester.js"
   },

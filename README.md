@@ -4,7 +4,9 @@ This app is a little wrapper around the REST API for the [Nodester](http://nodes
 
 ## Installation
 
-    npm install nodester-cli
+**If you are using `npm 1.0` you need to provide the `-g` flag to install this app globally.**
+
+    npm install nodester-cli -g
 
 ## Usage
 
