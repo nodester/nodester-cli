@@ -1,22 +1,3 @@
-**nodester-cli is a wrapper for the Nodester REST API**
-
-
-## Installation
-    
-To install nodester-cli, use [npm](http://github.com/isaacs/npm):
-
-    $ npm install -g nodester-cli
-
-## Usage
-
-    nodester help
-    nodester help app
-    nodester help user
-
-    nodester help all
-
-## LICENSE
-
 Copyright (C) 2011 Chris Matthieu (contact info: chris@nodester.com)
 
 This program is free software: you can redistribute it and/or modify

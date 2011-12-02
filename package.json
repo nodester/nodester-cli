@@ -1,28 +1,26 @@
 {
-  "name": "nodester-cli",
-  "description": "A CLI tool to allow interaction with the http://nodester.com/ platform.",
-  "version": "0.2.34",
-  "homepage": "http://nodester.com/",
-  "repository": "git://github.com/nodester/nodester-cli.git",
-  "author": "Daniel Bartlett <dan@f-box.org> (http://danb-uk.net/)",
-  "contributors": [
-    "Dav Glass <davglass@gmail.com> @davglass",
-    "Chris Matthieu <chris@matthieu.us>",
-    "Abraham Williams <4braham@gmail.com>",
-    "Contra <contra@australia.edu>",
-    "Marcos Oliveira <marcosvm@gmail.com"
-  ],
-  "preferGlobal" : "true",
-  "bin": {
-    "nodester": "bin/nodester.js"
-  },
-  "main": "./lib/commands.js",
-  "engines": {
-    "node": "*"
-  },
-  "dependencies" : {
-    "nodester-api": ">= 0.1.14",
-    "colors": "0.3.0",
-    "iniparser": "1.0.1"
-  }
+   "name":"nodester-cli",
+   "description":"A CLI tool to allow interaction with the Nodester platform.",
+   "version":"0.3.0",
+   "homepage":"http://github.com/nodester/nodester-cli",
+   "repository":"git://github.com/nodester/nodester-cli.git",
+   "author":"Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
+   "preferGlobal":"true",
+   "bin":{
+      "nodester":"./bin/cli.coffee"
+   },
+   "dependencies":{
+      "coffee-script":"*",
+      "node-log":"*",
+      "request":"*"
+   },
+   "engines":{
+      "node":">= 0.4.0"
+   },
+   "licenses":[
+      {
+         "type":"GPL Affero",
+         "url":"http://github.com/nodester/nodester-cli/raw/master/LICENSE"
+      }
+   ]
 }

@@ -1,0 +1,7 @@
+{
+   "service":"nodester",
+   "host":"nodester.com",
+   "user":null,
+   "password":null,
+   "applications":["testapp"]
+}
