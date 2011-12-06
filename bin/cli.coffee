@@ -7,47 +7,42 @@ log = require 'node-log'
 log.setName config.service
   
 commando = {}
+commandPath = path.join __dirname, '../commands/'
 
 # Parse process args to command name and command arguments
 parse = ->
   args = process.argv[2...]
   command = args[0]
   args.shift()
-  commandPath = path.join __dirname, '../commands/'
-  if commandExists commandPath, command
-    mainCommand = require commandPath + command
-    if mainCommand?.hasOwnProperty 'exe'
-      mainCommand.exe commando, args
-    else
-      defaultHelp commandPath, args
-        
+  if commandExists command
+    require(commandPath + command).exe commando, args
   else if appExists command
     command = args[0]
     args.shift()
     commandPath = path.join __dirname, '../commands/app/'
-    mainCommand = require commandPath + command
-    if mainCommand?.hasOwnProperty 'exe'
-      mainCommand.exe commando, args
-    else
+    if commandExists command
+      require(commandPath + command).exe commando, args
+    else 
       defaultHelp commandPath, args
   else
     defaultHelp commandPath, args
       
 defaultHelp = (commandPath, args) ->
-  if commandExists(commandPath, 'help') and (helpCommand = require(commandPath + 'help')).hasOwnProperty 'exe'
-    helpCommand.exe commando, args
+  if commandExists 'help'
+    require(commandPath + 'help').exe(commando, args)
   else
     files = fs.readdirSync commandPath
-    if files
-      commands = (path.basename(x, path.extname(x)) for x in files when x isnt 'app')
-      log.info 'Available Commands:'
-      log.info "  - #{command}" for command in commands
-    else
-      log.error 'No commands found.'
+    return console.log 'No commands found.' unless files
+    commands = (path.basename(x, path.extname(x)) for x in files)
+    console.log 'Available Commands:'
+    console.log('  - ' + command) for command in commands
       
-commandExists = (commandPath, command) -> 
-  exists = path.existsSync path.join commandPath, command + '.js'
-  exists or= path.existsSync path.join commandPath, command + '.coffee'
+commandExists = (command) -> 
+  try
+    require.resolve path.join commandPath, command
+    return true
+  catch err
+    return false
     
 appExists = (appName) -> appName in config.applications
 
