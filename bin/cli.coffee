@@ -32,10 +32,10 @@ defaultHelp = (commandPath, args) ->
     require(commandPath + 'help').exe(commando, args)
   else
     files = fs.readdirSync commandPath
-    return console.log 'No commands found.' unless files
+    return log.error 'No commands found.' unless files
     commands = (path.basename(x, path.extname(x)) for x in files)
-    console.log 'Available Commands:'
-    console.log('  - ' + command) for command in commands
+    log.info 'Available Commands:'
+    log.info "  -  #{command}" for command in commands
       
 commandExists = (command) -> 
   try
