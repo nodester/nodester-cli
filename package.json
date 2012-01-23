@@ -21,7 +21,7 @@
     "node": "*"
   },
   "dependencies" : {
-    "nodester-api": ">= 0.1.20",
+    "nodester-api": ">= 0.1.21",
     "colors": "0.3.0",
     "iniparser": "1.0.1"
   }
