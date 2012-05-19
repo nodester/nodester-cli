@@ -1,7 +1,7 @@
 {
   "name": "nodester-cli",
   "description": "A CLI tool to allow interaction with the http://nodester.com/ platform.",
-  "version": "0.2.49",
+  "version": "0.3.0",
   "homepage": "http://nodester.com/",
   "repository": "git://github.com/nodester/nodester-cli.git",
   "author": "Daniel Bartlett <dan@f-box.org> (http://danb-uk.net/)",
@@ -12,7 +12,7 @@
     "Contra <contra@australia.edu>",
     "Marcos Oliveira <marcosvm@gmail.com>"
   ],
-  "preferGlobal" : "true",
+  "preferGlobal": "true",
   "bin": {
     "nodester": "bin/nodester.js"
   },
@@ -20,9 +20,12 @@
   "engines": {
     "node": "*"
   },
-  "dependencies" : {
+  "dependencies": {
     "nodester-api": ">= 0.1.23",
     "colors": "0.3.0",
     "iniparser": "1.0.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.0.3"
   }
 }
