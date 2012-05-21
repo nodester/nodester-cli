@@ -3,7 +3,11 @@
 process.nodester = {
   brand: 'nodester',
   apihost: 'api.nodester.com',
-  env: 'test'
+  env: 'test',
+  config: {
+    username: 'test',
+    password: 'test01'
+  }
 }
 
 var cli = require('../lib/commands')
