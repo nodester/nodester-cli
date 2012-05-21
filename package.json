@@ -16,9 +16,9 @@
   "bin": {
     "nodester": "bin/nodester.js"
   },
-  "main": "./lib/commands.js",
+  "main": "./bin/nodester.js",
   "engines": {
-    "node": "*"
+    "node": "0.6.x"
   },
   "dependencies": {
     "nodester-api": ">= 0.1.23",
