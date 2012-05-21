@@ -1,5 +1,5 @@
 # Nodester API CLI access
-
+[![Build Status](https://secure.travis-ci.org/alejandromg/nodester-cli.png)](http://travis-ci.org/alejandromg/nodester-cli)
 This app is a little wrapper around the REST API for the [Nodester](http://nodester.com/) OS Node hosting platform.
 
 ## Installation

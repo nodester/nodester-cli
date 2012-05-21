@@ -14,9 +14,14 @@
   ],
   "preferGlobal": "true",
   "bin": {
-    "nodester": "bin/nodester.js"
+    "nodester": "./bin/nodester.js"
   },
   "main": "./bin/nodester.js",
+  "scripts": {
+    "start": "node ./bin/nodester.js",
+    "test": "mocha test/test-*.js -R  spec"
+  },
+
   "engines": {
     "node": "0.6.x"
   },
