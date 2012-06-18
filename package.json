@@ -21,14 +21,14 @@
     "start": "node ./bin/nodester.js",
     "test": "mocha test/test-*.js -R  spec"
   },
-
   "engines": {
     "node": "0.6.x"
   },
   "dependencies": {
     "nodester-api": ">= 0.1.23",
     "colors": "0.3.0",
-    "iniparser": "1.0.1"
+    "iniparser": "1.0.1",
+    "read": "~0.1.0"
   },
   "devDependencies": {
     "mocha": "~1.0.3"
