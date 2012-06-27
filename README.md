@@ -1,21 +1,21 @@
-# Nodester API CLI access
-[![Build Status](https://secure.travis-ci.org/alejandromg/nodester-cli.png)](http://travis-ci.org/alejandromg/nodester-cli)
+# Nodester API CLI access [![Build Status](https://secure.travis-ci.org/alejandromg/nodester-cli.png)](http://travis-ci.org/nodester/nodester-cli)
+
 This app is a little wrapper around the REST API for the [Nodester](http://nodester.com/) OS Node hosting platform.
 
 ## Installation
 
-**If you are using `npm 1.0` you need to provide the `-g` flag to install this app globally.**
-
     npm install nodester-cli -g
+
 
 ## Usage
 
-    nodester help
-    nodester help app
-    nodester help user
+In your CLI run one of these commands:
 
-    //All options
-    nodester help all
+    $ nodester 
+    $ nodester app <usage>
+    $ nodester user <usage>
+
+Each of them will outpot the help for the respective command.
 
 
 ## Local installation
@@ -33,4 +33,23 @@ Here is a simple example:
     nodester "$@"
     export NODESTER_BRAND=;
     export NODESTER_APIHOST=;
+
+So take a look at `examples` and see how can you roll out your personal nodester-cli
+
+
+## Contributors
+
+The nodester community (`nodester authors`):
+
+    - [Daniel Bartlett <dan@f-box.org>](http://danb-uk.net/)
+    - [Dav Glass <davglass@gmail.com>](http://twitter/@davglass)
+    - [Chris Matthieu](http://matthieu.us)
+    - Abraham Williams <4braham@gmail.com>
+    - Contra <contra@australia.edu>
+    - Marcos Oliveira <marcosvm@gmail.com>
+    - [Alejandro Morales](http://alejandromorales.co.cc)
+
+## License
+
+MIT 2012 - Nodester
 
