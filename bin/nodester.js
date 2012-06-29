@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
+var config = require('../config');
 
 process.nodester = {
-  brand: 'nodester',
-  apihost: 'api.nodester.com',
+  brand: config.brand,
+  apihost: config.apihost,
   env : process.env.NODE_ENV || 'production'
 }
 
