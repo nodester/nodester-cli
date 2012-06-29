@@ -1,5 +1,5 @@
 {
-  "name": "numbus",
+  "name": "nodester-cli",
   "description": "A CLI tool to allow interaction with the http://nodester.com/ platform.",
   "version": "1.0.0",
   "homepage": "http://nodester.com/",
@@ -15,7 +15,7 @@
   ],
   "preferGlobal": "true",
   "bin": {
-    "numbus": "./bin/nodester.js"
+    "nodester": "./bin/nodester.js"
   },
   "main": "./bin/nodester.js",
   "scripts": {
