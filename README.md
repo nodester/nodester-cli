@@ -52,9 +52,9 @@ Also you can take a look at `examples` and see how can you roll out your persona
 
 The nodester community (`nodester authors`):
 
+	- [Chris Matthieu](http://matthieu.us)
     - [Daniel Bartlett <dan@f-box.org>](http://danb-uk.net/)
     - [Dav Glass <davglass@gmail.com>](http://twitter/@davglass)
-    - [Chris Matthieu](http://matthieu.us)
     - Abraham Williams <4braham@gmail.com>
     - Contra <contra@australia.edu>
     - Marcos Oliveira <marcosvm@gmail.com>
