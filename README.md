@@ -20,9 +20,7 @@ Each of them will outpot the help for the respective command.
 
 ## Local installation
 
-If you have your own instance of [Nodester](http://nodester.com/) installed on your own server, the 
-command line app is designed to work with that too. Currently it supports 3 environment variables
-to change a couple of default settings.
+If you have your own instance of [Nodester](http://nodester.com/) installed on your own server, the command line app is designed to work with that too. Currently it supports 3 environment variables to change a couple of default settings.
 
 Here is a simple example:
 
@@ -34,7 +32,20 @@ Here is a simple example:
     export NODESTER_BRAND=;
     export NODESTER_APIHOST=;
 
-So take a look at `examples` and see how can you roll out your personal nodester-cli
+**In the newest version of `nodester-cli`** you can easily switch betwen instances running:
+
+    $ nodester config set <apiendpoint> <brand>
+
+after this you can access to your instance. To rollback to the nodester endpoint run:
+
+    $ nodester config set api.nodester.com nodester
+
+Also you can see what is the current configuration running: 
+
+    $ nodester config get
+
+
+Also you can take a look at `examples` and see how can you roll out your personal nodester-cli
 
 
 ## Contributors
