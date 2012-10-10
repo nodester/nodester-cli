@@ -5,7 +5,7 @@ var config = require('../config');
 process.nodester = {
   brand: config.brand,
   apihost: config.apihost,
-  env : process.env.NODE_ENV || 'production'
+  env : process.env.NODESTER_ENV || 'production'
 }
 
 var cli = require('../lib/commands'),
